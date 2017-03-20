@@ -1001,7 +1001,6 @@ BasicGame.Boot.prototype =
         game.time.advancedTiming = true;
         game.debug.renderShadow = false;
         game.stage.disableVisibilityChange = true;
-
         game.plugins.add(new Phaser.Plugin.Isometric(game));
 
         game.load.atlasJSONHash('tileset', 'assets/tileset.png', 'assets/tileset.js');
@@ -1035,13 +1034,16 @@ BasicGame.Boot.prototype =
         game.load.bitmapFont('fontBlue', 'assets/font/font_blue.png', 'assets/font/font.xml');
     },
     create: function () {
-        game.time.slowMotion = slowMotionMultiplier;
+        
+		
+		
+		game.time.slowMotion = slowMotionMultiplier;
 
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.scale.minWidth = 320;
         this.scale.minHeight = 427;
-        this.scale.maxWidth = 720;
-        this.scale.maxHeight = 960;
+        this.scale.maxWidth = 2000;
+        this.scale.maxHeight = 2571;
         this.scale.refresh();
         this.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
