@@ -1,15 +1,15 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-</head>
+		<meta charset="utf-8">
+		<title>Play Harrier Carrier</title>
 		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="keywords" content=""/>
-        <meta name="description" content="" />
+		<meta name="keywords" content="Harrier Carrier, Cold War, strategy, puzzle, tower defense, HTML5 game, Phaser"/>
+        <meta name="description" content="Play Harrier Carrier in your browser: a Cold War strategy puzzle tower defense game." />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 		<link rel="shortcut icon" href="assets/ico.ico">
 		<meta name="viewport" content="user-scalable=0, initial-scale=1, minimum-scale=1, maximum-scale=1, width=device-width, minimal-ui=1">
-		<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 		<style type="text/css">
 			body {
 				margin: 0px 0px 1px 0px; /* the extra 1px allows the iOS inner/outer check to work */
@@ -281,7 +281,6 @@ var ffwdIcon2 = 0;
 
 var mouthAnimation;
 var fireAnimation;
-var fireAnimation;
 
 var flagAnimation;
 var flagAnimationVictory;
@@ -305,28 +304,29 @@ var touchIconPosition;
 var usaAlive = true;
 var selectedLevel;
 
-var spriteActionArray = [];
-//deck
-spriteActionArray[0] = 'sit_on_deck';
-spriteActionArray[1] = 'move_on_deck';
-spriteActionArray[1] = 'busy_moving_on_deck';
-
-//hover
-spriteActionArray[2] = 'hover_up';
-spriteActionArray[3] = 'hover_level';
-spriteActionArray[4] = 'hover_down';
-spriteActionArray[5] = 'hover_leave';
-spriteActionArray[6] = 'hover_return';
-spriteActionArray[7] = 'ready_for_takeoff';
-spriteActionArray[8] = 'takeoff';
-spriteActionArray[9] = 'landing';
-spriteActionArray[10] = 'away_from_carrier';
-spriteActionArray[11] = 'in_combat';
-spriteActionArray[12] = 'return_to_carrier';
-spriteActionArray[13] = 'dead';
-spriteActionArray[14] = 'crashing';
-spriteActionArray[15] = 'crashed';
-spriteActionArray[15] = 'ditched';
+// every value an aircraft's action (sd[9]) can take
+var spriteActionArray = [
+    //deck
+    'sit_on_deck',
+    'move_on_deck',
+    'busy_moving_on_deck',
+    //hover
+    'hover_up',
+    'hover_level',
+    'hover_down',
+    'hover_leave',
+    'hover_return',
+    'ready_for_takeoff',
+    'takeoff',
+    'landing',
+    'away_from_carrier',
+    'in_combat',
+    'return_to_carrier',
+    'dead',
+    'crashing',
+    'crashed',
+    'ditched'
+];
 
 var spriteTypeArray = [];
 spriteTypeArray[0] = 'harrier';
@@ -1131,24 +1131,24 @@ BasicGame.Boot.prototype =
         graphicsStatusGroup = game.add.group();
         textGroup = game.add.group();
 
-        infoPanelTextFireRate = game.make.text(220, 825, '', { font: "18px Courier", fill: "#0xFFFFFF" });
+        infoPanelTextFireRate = game.make.text(220, 825, '', { font: "18px Courier", fill: "#000000" });
         infoPanelTextFireRate.fontWeight = 'bold';
-        infoPanelText2 = game.make.text(400, 845, '', { font: "18px Courier", fill: "#0xFFFFFF" });
-        infoPanelText3 = game.make.text(400, 865, '', { font: "18px Courier", fill: "#0xFFFFFF" });
+        infoPanelText2 = game.make.text(400, 845, '', { font: "18px Courier", fill: "#000000" });
+        infoPanelText3 = game.make.text(400, 865, '', { font: "18px Courier", fill: "#000000" });
 
-        infoPanelLevelText1 = game.make.text(395, 725, '', { font: "18px Courier", fill: "#0xFFFFFF" });
-        infoPanelLevelText2 = game.make.text(395, 750, '', { font: "18px Courier", fill: "#0xFFFFFF" });
-        infoPanelLevelText3 = game.make.text(395, 775, '', { font: "18px Courier", fill: "#0xFFFFFF" });
-        infoPanelLevelText4 = game.make.text(395, 800, '', { font: "18px Courier", fill: "#0xFFFFFF" });
-        infoPanelLevelText5 = game.make.text(395, 825, '', { font: "18px Courier", fill: "#0xFFFFFF" });
-        infoPanelLevelText6 = game.make.text(395, 850, '', { font: "18px Courier", fill: "#0xFFFFFF" });
+        infoPanelLevelText1 = game.make.text(395, 725, '', { font: "18px Courier", fill: "#000000" });
+        infoPanelLevelText2 = game.make.text(395, 750, '', { font: "18px Courier", fill: "#000000" });
+        infoPanelLevelText3 = game.make.text(395, 775, '', { font: "18px Courier", fill: "#000000" });
+        infoPanelLevelText4 = game.make.text(395, 800, '', { font: "18px Courier", fill: "#000000" });
+        infoPanelLevelText5 = game.make.text(395, 825, '', { font: "18px Courier", fill: "#000000" });
+        infoPanelLevelText6 = game.make.text(395, 850, '', { font: "18px Courier", fill: "#000000" });
 
         infoPanelAmmoText = game.add.bitmapText(400, 760, 'fontRed', '', 20); //colour must be : Red, Purple, Yellow, Black
         infoPanelShieldText = game.add.bitmapText(400, 780, 'fontYellow', '', 20); //colour must be : Red, Purple, Yellow, Black
         infoPanelFuelText = game.add.bitmapText(400, 800, 'fontPurple', '', 20); //colour must be : Red, Purple, Yellow, Black
 
-     //   infoPanelAmmoText = game.make.text(400, 770, '', { font: "12px Courier", fill: "#0xFFFFFF" });
-     //   infoPanelShieldText = game.make.text(400, 780, '', { font: "12px Courier", fill: "#0xFFFFFF" });
+     //   infoPanelAmmoText = game.make.text(400, 770, '', { font: "12px Courier", fill: "#000000" });
+     //   infoPanelShieldText = game.make.text(400, 780, '', { font: "12px Courier", fill: "#000000" });
      //   infoPanelFuelText = game.make.text(400, 790, '', { font: "12px Courier", fill: "#0xFF0000" });
 
         textGroup.add(infoPanelTextFireRate);
@@ -2853,7 +2853,7 @@ function RunMainLoop() {
                     else if (sd[6] % 10 === 0)
                         DrawRechargeText(sd[10].x - 10 + game.rnd.pick([0, 15, 30, -15, -30]), sd[10].y - 20, 'Yellow', '+', 32);
                 }
-                if (sd[6] == GetTypeFuelMax(spriteTypeArray[sd[0]]) - shieldRefreshRate) {
+                if (sd[6] == GetTypeShieldMax(spriteTypeArray[sd[0]]) - shieldRefreshRate) {
                     DrawRechargeText(sd[10].x - 80, sd[10].y - 100, 'Yellow', '+', 256);
 
                     //tutorial
@@ -2893,7 +2893,7 @@ function RunMainLoop() {
                     else if (sd[8] % 10 === 0)
                         DrawRechargeText(sd[10].x - 10 + game.rnd.pick([0, 15, 30, -15, -30]), sd[10].y - 20, 'Red', '+', 32);
                 }
-                if (sd[8] == GetTypeFuelMax(spriteTypeArray[sd[0]]) - ammoRefreshRate) {
+                if (sd[8] == GetTypeAmmoMax(spriteTypeArray[sd[0]]) - ammoRefreshRate) {
                         DrawRechargeText(sd[10].x - 80, sd[10].y - 100, 'Red', '+', 256);
 
                     //tutorial
@@ -3115,7 +3115,7 @@ function RunMainLoop() {
                 for (var m = 0; m < sprite_deck.length; m++) {
                     var collisionOccurs = false;
 
-                    if (sprite_deck[m] && m != j && isOnDeck(spriteActionArray[sprite_deck[m][0]])) //cannot collide with self
+                    if (sprite_deck[m] && m != j && isOnDeck(sprite_deck[m][9])) //cannot collide with self
                     {
                         if (sprite_deck[m][2] == 1 && sprite_deck[m][3] == 7 && sprite_deck[m][9] == 'sit_on_deck') {
                             collisionOccurs = true;
@@ -5092,5 +5092,6 @@ function AnimateWater() {
     });
 }
 </script>
+</head>
 <body></body>
 </html>
