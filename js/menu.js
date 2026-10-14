@@ -130,7 +130,7 @@ function GetSelectedLevel(x, y) {
     if (musicEnabled && row === 5 && (col === 0 || col === 1)) {
         return -2 - col;                                 // music on, off
     }
-    if (col === 2) {
+    if (row === 5 && col === 2) {
         return -8;                                       // full game advert
     }
     return -1;

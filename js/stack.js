@@ -83,6 +83,8 @@ function SendLowestProfileHome() {
     if (lowest) {
         findAircraft(lowest.guid).slot = null;
         lowest.sprite.destroy();
+        lowest.chevron.destroy();
+        lowest.chevronBlue.destroy();
 
         usaProfiles[0] = usaProfiles[1];
         usaProfiles[1] = usaProfiles[2];
@@ -154,15 +156,9 @@ function ShuffleProfileStackDown(guidValue) {
 
 // Animate one side of the battle: barrel rolls, fuel use, firing, special abilities
 function AnimateProfile(profiles, faction) {
-    UI.hawkEyeChevrons.forEach(function (sprite) {
-        sprite.destroy();
-    });
-    UI.seakingJammers.forEach(function (sprite) {
-        sprite.destroy();
-    });
-    UI.foxbatIntelMorseCodes.forEach(function (sprite) {
-        sprite.destroy();
-    });
+    DestroySprites(UI.hawkEyeChevrons);
+    DestroySprites(UI.seakingJammers);
+    DestroySprites(UI.foxbatIntelMorseCodes);
 
     if (faction == 'usa' && profiles.length > 0) {
         TutorialStackAnimated();
@@ -195,12 +191,12 @@ function AnimateProfileRoll(profile, slot) {
     var counter = profile.rollCounter;
     var roll = profile.roll;  // up, level, down
 
-    sprite.loadTexture('tileset', profile.type + '_profile_' + roll);
+    SetFrame(sprite, profile.type + '_profile_' + roll);
     sprite.y = GetHoverWobble(sprite.y, slot, 10, -10);
 
     if (counter + game.rnd.pick([0, 2, 5, -2, -5]) >= 60 && roll != 'level') {
         profile.roll = 'level';
-        sprite.loadTexture('tileset', profile.type + '_profile_level');
+        SetFrame(sprite, profile.type + '_profile_level');
         profile.rollCounter = 0;
     }
 }
@@ -251,7 +247,8 @@ function AnimateUsaProfile(profiles, i) {
     }
 
     if (aircraft.fuel <= 0) {
-        aircraft = DitchAircraft(profiles, i, aircraft);
+        DitchAircraft(profiles, i, aircraft);
+        return;
     }
     else
         DrawStatusBarsUsa(
@@ -309,7 +306,7 @@ function FireUsaMissile(aircraft, profile, ammoSize, isBullet) {
         aircraft.ammo = 0;
 }
 
-// Out of fuel: the plane falls into the sea. Returns the aircraft variable as the original loop left it.
+// Out of fuel: the plane falls into the sea, and the planes above move down
 function DitchAircraft(profiles, i, aircraft) {
     aircraft.shield = 0;
     aircraft.action = 'ditched';
@@ -333,7 +330,6 @@ function DitchAircraft(profiles, i, aircraft) {
         Defeat(2, true);
     }
 
-    aircraft = null;
     profiles[i] = null;
     usaProfiles[i] = null;
 
@@ -341,12 +337,10 @@ function DitchAircraft(profiles, i, aircraft) {
     for (var j = i; j < usaProfiles.length; j++) {
         usaProfiles[j] = usaProfiles[j + 1];
         if (usaProfiles[j]) {
-            aircraft = findAircraft(usaProfiles[j].guid);
-            aircraft.slot -= 1;
+            findAircraft(usaProfiles[j].guid).slot -= 1;
             TweenProfileDown(usaProfiles[j].sprite, 1);
         }
     }
-    return aircraft;
 }
 
 // Hawkeye radar pulse: blue chevrons spreading out from the plane
@@ -570,6 +564,14 @@ function UpdateMissileUsa() {
             missile.destroy();
         }
     }
+    usaMissiles = RemoveDestroyed(usaMissiles);
+}
+
+// Missiles destroyed (or faded out) are dropped from the list
+function RemoveDestroyed(sprites) {
+    return sprites.filter(function (sprite) {
+        return sprite.alive;
+    });
 }
 
 function UsaMissileHit(missile) {
@@ -661,6 +663,7 @@ function UpdateMissileUssr() {
             missile.destroy();
         }
     }
+    ussrMissiles = RemoveDestroyed(ussrMissiles);
 }
 
 function UssrMissileHit(missile) {
@@ -705,6 +708,14 @@ function UssrMissileHit(missile) {
 }
 
 //=========================== DESTROY ===================================
+
+// Destroy every sprite in the array and empty it
+function DestroySprites(sprites) {
+    sprites.forEach(function (sprite) {
+        sprite.destroy();
+    });
+    sprites.length = 0;
+}
 
 function DestroyUsaChevron(profileSlot) {
     if (usaProfiles[profileSlot]) {

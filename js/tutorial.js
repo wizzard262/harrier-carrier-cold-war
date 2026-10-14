@@ -107,6 +107,10 @@ function TutorialReturnToCarrierHint() {
         TutorialStep(position + 1);
     }
 
+    // add the tap only once per sprite (at step 17 this check runs every frame)
+    if (usaProfiles[0].sprite.tutorialReturnAdded) return;
+    usaProfiles[0].sprite.tutorialReturnAdded = true;
+
     //EVENT (tap the plane in the stack: it returns to the carrier)
     usaProfiles[0].sprite.events.onInputDown.add(function (sprite) {
         sprite_deck[0].action = 'return_to_carrier';

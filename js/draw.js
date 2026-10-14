@@ -10,6 +10,13 @@ function SetSprite(x, y, z, tileAtlas, tileName, group) {
     return game.add.isoSprite((x * isoGameSize) + (1.5 * isoBaseSize), (y * isoGameSize) + (1.5 * isoBaseSize), z, tileAtlas, tileName, group);
 }
 
+// Change a sprite's frame only if it is different (loadTexture is not free)
+function SetFrame(sprite, frameName) {
+    if (sprite.frameName !== frameName) {
+        sprite.loadTexture('tileset', frameName);
+    }
+}
+
 // Flat (screen space) sprite
 function SetFlatSprite(x, y, z, tileAtlas, tileName, group) {
     return game.add.sprite(x, y, tileAtlas, tileName, group);
@@ -597,7 +604,7 @@ function DrawInsigniaPanel(number) {
         UI.graphicsInsigniaPanel.visible = true;
 
         UI.spriteInsigniaPanel.visible = true;
-        UI.spriteInsigniaPanel.loadTexture('insigniaset', 'insignia_' + (number == -1) ? 0 : number);
+        UI.spriteInsigniaPanel.loadTexture('insigniaset', 'insignia_' + ((number == -1) ? 1 : number));
         UI.spriteInsigniaPanel.bringToTop();
     }
 }

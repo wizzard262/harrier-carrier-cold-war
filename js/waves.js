@@ -210,9 +210,13 @@ function GetRandomUssrWaves(difficulty) {
 
     for (var i = 0; i < waveCount; i++) {
         var slotOdds = GetRandomUssrSlotOdds(difficulty);
-        waves.push(slotOdds.map(function (odds) {
+        var wave = slotOdds.map(function (odds) {
             return (odds === null) ? null : game.rnd.pick(odds);
-        }));
+        });
+        //make sure the sub-wave is not empty
+        if (wave.every(function (plane) { return plane === null; }))
+            wave[game.rnd.pick([0, 1, 2, 3])] = game.rnd.pick(['mig15', 'mig21', 'fulcrum']);
+        waves.push(wave);
     }
     return waves;
 }

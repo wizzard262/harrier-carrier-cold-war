@@ -26,6 +26,17 @@ var hudCounterThreshold = 2400;       // frames between HUD flickers
 var waveCounterDelayThreshold = 100;  // frames between the end of a level and the next
 var slowMotionMultiplier = 1;
 
+// Take-off timings, in frames at normal speed (fast-forward shortens them in proportion).
+// VTOL and catapult take-offs add up to the same total, so aircraft reach the battle
+// stack in the order they were launched.
+var TAKEOFF = {
+    catapultWait: 30,   // on the catapult before it fires
+    catapultRun: 70,    // catapult run and climb away
+    vtolRise: 30,       // VTOL rise to hover height
+    vtolHover: 20,      // VTOL hover before leaving
+    vtolLeave: 50       // VTOL accelerating away
+};
+
 //=========================== DECK LAYOUT ===============================
 // Deck grid is 4 wide (x 0-3) by 8 long (y 0-7)
 
@@ -96,7 +107,7 @@ var AIRCRAFT_STATS = {
     // USA
     harrier:       { flight: 'vtol',     shieldMax: 500,  fuelMax: 500,  ammoMax: 500, missileDelay: 5, ammoSize: 1,    name: 'AV-8B Harrier',    info1: 'Small all-rounder VTOL',     info2: 'fighter-bomber' },
     hawkeye:       { flight: 'catapult', shieldMax: 250,  fuelMax: 1000, ammoMax: 0,   missileDelay: 0, ammoSize: 0,    name: 'E-2 Hawkeye',      info1: 'Decrease missile delay of',  info2: 'armed craft by 1 chevron' },
-    tomcat:        { flight: 'catapult', shieldMax: 750,  fuelMax: 250,  ammoMax: 1000, missileDelay: 4, ammoSize: 1,   name: 'F-14 Tomcat',      info1: 'Fast, powerful interceptor', info2: 'but short-ranged' },
+    tomcat:        { flight: 'catapult', shieldMax: 750,  fuelMax: 300,  ammoMax: 1000, missileDelay: 4, ammoSize: 1,   name: 'F-14 Tomcat',      info1: 'Fast, powerful interceptor', info2: 'but short-ranged' },
     warthog:       { flight: 'catapult', shieldMax: 1000, fuelMax: 500,  ammoMax: 975, missileDelay: 1, ammoSize: 0.25, name: 'A-10 Thunderbolt', info1: 'Heavy-armour. 30mm Gatling', info2: 'cannon never misses' },
     seaking:       { flight: 'vtol',     shieldMax: 750,  fuelMax: 750,  ammoMax: 0,   missileDelay: 0, ammoSize: 0,    name: 'SH-3 Seaking',     info1: 'Electronic missile-jamming', info2: 'VTOL helicopter' },
     foxbat_defect: { flight: 'catapult', shieldMax: 750,  fuelMax: 250,  ammoMax: 750, missileDelay: 3, ammoSize: 1,    name: 'MiG-25 Foxbat',    info1: 'DEFECTOR. Can gather intel', info2: 'on enemies future movements' },

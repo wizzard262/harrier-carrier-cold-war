@@ -253,6 +253,7 @@ function DrawChosenPath(path) {
     });
 
     var end = path[path.length - 1];
+    if (!end) return; // catapult square that can't be reached right now
     var x = end[0];
     var y = end[1];
     UI.newPositionIndicatorBox = SetSprite(x + (0.5 * deckOffsetX), y + (0.5 * deckOffsetY), deckSpriteIsoZ + 5, 'tileset', 'blue_box', UI.isoGroup);
@@ -392,7 +393,8 @@ function UpdateHoverUp(aircraft) {
     aircraft.destY = 0;
     aircraft.sprite.inputEnabled = false;
     aircraft.sprite.useHandCursor = false;
-    aircraft.sprite.isoZ += 2 * Speed.tweenInverseMultiplier;  //hover rise
+    // rise from the deck to hover height (Z 200) in TAKEOFF.vtolRise frames
+    aircraft.sprite.isoZ += ((200 - deckSpriteIsoZ) / TAKEOFF.vtolRise) * Speed.tweenInverseMultiplier;
     if (aircraft.sprite.isoZ >= 200) { //hover limit
         aircraft.action = 'hover_level';
         aircraft.counter = 0;
@@ -403,10 +405,10 @@ function UpdateHoverLevel(aircraft) {
     if (aircraft.action != 'hover_level') return;
 
     aircraft.sprite.isoZ += game.rnd.pick([0, -0.5, 0.5]); // hover wobble
-    aircraft.counter += 1;
-    if (aircraft.counter + game.rnd.pick([0, 20, -20]) >= 40) {
+    aircraft.counter += Speed.tweenInverseMultiplier;
+    if (aircraft.counter >= TAKEOFF.vtolHover) {
         aircraft.action = 'hover_leave';
-        aircraft.counter = null;
+        aircraft.counter = 0;
     }
 }
 
@@ -414,11 +416,11 @@ function UpdateHoverLeave(aircraft) {
     if (aircraft.action != 'hover_leave') return;
 
     aircraft.sprite.bringToTop();
-    aircraft.counter += 1; //counter increases leaving speed (accelerates)
-    MoveSpriteForward(aircraft.sprite, aircraft.direction, 0.4 * aircraft.counter * Speed.tweenInverseMultiplier);
+    aircraft.counter += Speed.tweenInverseMultiplier; //counter increases leaving speed (accelerates)
+    MoveSpriteForward(aircraft.sprite, aircraft.direction, 1.6 * aircraft.counter * Speed.tweenInverseMultiplier);
 
     // left carrier and is off screen
-    if (aircraft.counter >= 100) {
+    if (aircraft.counter >= TAKEOFF.vtolLeave) {
         aircraft.counter = null;
         LeaveCarrier(aircraft);
         TurnAboutOffScreen(aircraft);
@@ -618,15 +620,15 @@ function UpdateReadyForTakeoff(aircraft) {
     }
 
     //delay the catapult launch
-    if (aircraft.action == 'ready_for_takeoff' && aircraft.counter < 30) {
-        aircraft.counter += 1;
+    if (aircraft.action == 'ready_for_takeoff' && aircraft.counter < TAKEOFF.catapultWait) {
+        aircraft.counter += Speed.tweenInverseMultiplier;
     }
 }
 
 function UpdateCatapultLaunch(aircraft) {
-    if ((aircraft.action == 'ready_for_takeoff' || aircraft.action == 'takeoff') && aircraft.counter >= 30 && aircraft.counter < 100) {
+    if ((aircraft.action == 'ready_for_takeoff' || aircraft.action == 'takeoff') && aircraft.counter >= TAKEOFF.catapultWait && aircraft.counter < TAKEOFF.catapultWait + TAKEOFF.catapultRun) {
         aircraft.action = 'takeoff';
-        aircraft.counter += 1;
+        aircraft.counter += Speed.tweenInverseMultiplier;
         aircraft.sprite.isoX += 10 * Speed.tweenInverseMultiplier;
         aircraft.sprite.isoZ += 10 * Speed.tweenInverseMultiplier;
     }
@@ -634,7 +636,9 @@ function UpdateCatapultLaunch(aircraft) {
 
 // Launching into an aircraft parked on the catapult track destroys both
 function UpdateCatapultCrash(aircraft, index) {
-    if (!((aircraft.action == 'ready_for_takeoff' || aircraft.action == 'takeoff') && aircraft.counter == 35)) return;
+    // checked once, as the counter passes 35 (it steps by the game speed)
+    var counter = aircraft.counter;
+    if (!((aircraft.action == 'ready_for_takeoff' || aircraft.action == 'takeoff') && counter >= 35 && counter - Speed.tweenInverseMultiplier < 35)) return;
 
     for (var k = 0; k < sprite_deck.length; k++) {
         var other = sprite_deck[k];
@@ -655,7 +659,7 @@ function UpdateCatapultCrash(aircraft, index) {
 }
 
 function UpdateTakeoffComplete(aircraft) {
-    if (aircraft.action == 'takeoff' && aircraft.counter >= 100) {
+    if (aircraft.action == 'takeoff' && aircraft.counter >= TAKEOFF.catapultWait + TAKEOFF.catapultRun) {
         aircraft.counter = 0;
         LeaveCarrier(aircraft);
     }
