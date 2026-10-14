@@ -215,7 +215,7 @@ function GetRandomUssrWaves(difficulty) {
         });
         //make sure the sub-wave is not empty
         if (wave.every(function (plane) { return plane === null; }))
-            wave[game.rnd.pick([0, 1, 2, 3])] = game.rnd.pick(['mig15', 'mig21', 'fulcrum']);
+            wave[game.rnd.pick([0, 1, 2, 3])] = game.rnd.pick(['mig17', 'mig21', 'fulcrum']);
         waves.push(wave);
     }
     return waves;
@@ -225,25 +225,25 @@ function GetRandomUssrSlotOdds(difficulty) {
     if (difficulty === 0) { //easy
         return [
             null,
-            [null, null, null, null, null, 'mig15', 'mig15', 'mig15'],
-            [null, null, null, null, 'mig15', 'mig15', 'mig21', 'mig21'],
-            FullGameEnabled ? [null, null, null, 'mig15', 'mig21', 'mig21', 'fulcrum', 'foxbat'] : [null, null, null, 'mig15', 'mig21', 'mig21', 'fulcrum', 'fulcrum']
+            [null, null, null, null, null, 'mig17', 'mig17', 'mig17'],
+            [null, null, null, null, 'mig17', 'mig17', 'mig21', 'mig21'],
+            FullGameEnabled ? [null, null, null, 'mig17', 'mig21', 'mig21', 'fulcrum', 'foxbat'] : [null, null, null, 'mig17', 'mig21', 'mig21', 'fulcrum', 'fulcrum']
         ];
     }
     if (difficulty == 1) { //medium
         return [
-            [null, null, null, null, null, null, 'mig15', 'mig15', 'mig15', 'mig21', 'mig21'],
-            [null, null, null, null, null, 'mig15', 'mig15', 'mig15', 'mig21', 'mig21'],
-            FullGameEnabled ? [null, null, null, null, 'mig15', 'mig15', 'mig21', 'mig21', 'fulcrum', 'foxbat'] : [null, null, null, null, 'mig15', 'mig15', 'mig21', 'fulcrum'],
-            [null, null, null, 'mig15', 'mig21', 'mig21', 'mig21', 'fulcrum', 'bear']
+            [null, null, null, null, null, null, 'mig17', 'mig17', 'mig17', 'mig21', 'mig21'],
+            [null, null, null, null, null, 'mig17', 'mig17', 'mig17', 'mig21', 'mig21'],
+            FullGameEnabled ? [null, null, null, null, 'mig17', 'mig17', 'mig21', 'mig21', 'fulcrum', 'foxbat'] : [null, null, null, null, 'mig17', 'mig17', 'mig21', 'fulcrum'],
+            [null, null, null, 'mig17', 'mig21', 'mig21', 'mig21', 'fulcrum', 'bear']
         ];
     }
     //hard
     return [
-        [null, null, null, null, null, null, 'mig15', 'mig15', 'mig15', 'mig21', 'mig21', 'mig21', 'fulcrum'],
-        FullGameEnabled ? [null, null, null, null, null, 'mig15', 'mig15', 'mig15', 'mig21', 'fulcrum', 'foxbat', 'bear'] : [null, null, null, null, null, 'mig15', 'mig15', 'mig15', 'mig21', 'fulcrum', 'bear'],
-        [null, null, null, null, 'mig15', 'mig15', 'mig21', 'mig21', 'fulcrum', 'fulcrum', 'bear'],
-        [null, null, null, 'mig15', 'mig21', 'mig21', 'fulcrum', 'fulcrum', 'fulcrum', 'bear']
+        [null, null, null, null, null, null, 'mig17', 'mig17', 'mig17', 'mig21', 'mig21', 'mig21', 'fulcrum'],
+        FullGameEnabled ? [null, null, null, null, null, 'mig17', 'mig17', 'mig17', 'mig21', 'fulcrum', 'foxbat', 'bear'] : [null, null, null, null, null, 'mig17', 'mig17', 'mig17', 'mig21', 'fulcrum', 'bear'],
+        [null, null, null, null, 'mig17', 'mig17', 'mig21', 'mig21', 'fulcrum', 'fulcrum', 'bear'],
+        [null, null, null, 'mig17', 'mig21', 'mig21', 'fulcrum', 'fulcrum', 'fulcrum', 'bear']
     ];
 }
 

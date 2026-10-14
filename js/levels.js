@@ -210,7 +210,7 @@ var ussrWaves = [
             null,
             null,
             null,
-            'mig15'
+            'mig17'
         ]
     ],
     [
@@ -218,7 +218,7 @@ var ussrWaves = [
             null,
             null,
             null,
-            'mig15'
+            'mig17'
         ]
     ],
     [
@@ -233,24 +233,24 @@ var ussrWaves = [
         [
             null,
             null,
-            'mig15',
+            'mig17',
             'mig21'
         ]
     ],
     [
         [
             null,
-            'mig15',
+            'mig17',
             null,
-            'mig15'
+            'mig17'
         ]
     ],
     [
         [
-            'mig15',
-            'mig15',
-            'mig15',
-            'mig15',
+            'mig17',
+            'mig17',
+            'mig17',
+            'mig17',
         ],
         [
             null,
@@ -269,10 +269,10 @@ var ussrWaves = [
     ],
     [
         [
-            'mig15',
+            'mig17',
             'mig21',
             'mig21',
-            'mig15'
+            'mig17'
         ],
         [
             null,
@@ -284,7 +284,7 @@ var ussrWaves = [
             null,
             null,
             null,
-            'mig15'
+            'mig17'
         ],
         [
             null,
@@ -307,7 +307,7 @@ var ussrWaves2 = [
             'foxbat',
             null,
             null,
-            'mig15'
+            'mig17'
         ],
         [
             null,
@@ -375,7 +375,7 @@ var ussrWaves2 = [
             null,
             null,
             null,
-            'mig15'
+            'mig17'
         ],
         [
             'mig21',
@@ -398,24 +398,24 @@ var ussrWaves2 = [
     ],
     [
         [
-            'mig15',
-            'mig15',
-            'mig15',
-            'mig15'
+            'mig17',
+            'mig17',
+            'mig17',
+            'mig17'
         ],
         [
             null,
-            'mig15',
-            'mig15',
-            'mig15'
+            'mig17',
+            'mig17',
+            'mig17'
         ]
     ],
     [
         [
             null,
-            'mig15',
+            'mig17',
             null,
-            'mig15'
+            'mig17'
         ],
         [
             null,
@@ -426,7 +426,7 @@ var ussrWaves2 = [
     ],
     [
         [
-            'mig15',
+            'mig17',
             null,
             null,
             null
@@ -451,9 +451,9 @@ var ussrWaves2 = [
         ],
         [
             null,
-            'mig15',
+            'mig17',
             null,
-            'mig15'
+            'mig17'
         ],
         [
             'mig21',
@@ -465,13 +465,13 @@ var ussrWaves2 = [
             null,
             null,
             null,
-            'mig15'
+            'mig17'
         ],
         [
             null,
             null,
             'foxbat',
-            'mig15'
+            'mig17'
         ],
         [
             null,

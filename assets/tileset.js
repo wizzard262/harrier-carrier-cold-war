@@ -775,7 +775,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":80,"h":32},
 	"sourceSize": {"w":80,"h":32}
 },
-"mig15_profile_up":
+"mig17_profile_up":
 {
 	"frame": {"x":592,"y": 512,"w":128,"h":64},
 	"rotated": false,
@@ -783,7 +783,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":64},
 	"sourceSize": {"w":128,"h":64}
 },
-"mig15_profile_down":
+"mig17_profile_down":
 {
 	"frame": {"x":592,"y": 448,"w":128,"h":64},
 	"rotated": false,
@@ -791,7 +791,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":64},
 	"sourceSize": {"w":128,"h":64}
 },
-"mig15_profile_level":
+"mig17_profile_level":
 {
 	"frame": {"x":592,"y": 576,"w":128,"h":64},
 	"rotated": false,

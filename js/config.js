@@ -115,7 +115,7 @@ var AIRCRAFT_STATS = {
     u2:            { flight: 'catapult', shieldMax: 50,   fuelMax: 1500, ammoMax: 0,   missileDelay: 0, ammoSize: 0,    name: 'U2',               info1: '',                           info2: '' },
 
     // USSR
-    mig15:   { shieldMax: 250,  missileDelay: 5, ammoSize: 1, name: 'MiG-17 Fresco',   info1: 'Small 1950s 1st Gen',        info2: 'jet-fighter', intel: '15' },
+    mig17:   { shieldMax: 250,  missileDelay: 5, ammoSize: 1, name: 'MiG-17 Fresco',   info1: 'Small 1950s 1st Gen',        info2: 'jet-fighter', intel: '17' },
     mig21:   { shieldMax: 500,  missileDelay: 4, ammoSize: 1, name: 'MiG-21 Fishbed', info1: 'Medium 1960s 3rd Gen',       info2: 'jet-fighter', intel: '21' },
     fulcrum: { shieldMax: 750,  missileDelay: 3, ammoSize: 1, name: 'MiG-29 Fulcrum', info1: 'Large 1970s 4th Gen',        info2: 'jet-fighter', intel: '29' },
     foxbat:  { shieldMax: 1000, missileDelay: 2, ammoSize: 1, name: 'MiG-25 Foxbat',  info1: 'V.fast, heavy, short range', info2: 'WILL DEFECT IF ISOLATED!', intel: '25' },
