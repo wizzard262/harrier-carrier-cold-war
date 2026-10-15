@@ -10,6 +10,7 @@ var googlePlayLink = "https://play.google.com/store/apps/details?id=garmadon.har
 //=========================== TUNING ====================================
 
 var recoveryLineBonus = 250;          // fuel/shield/ammo given by catching recovery cable 1/2/3
+var bolterChance = 0.15;              // chance a landing misses every cable; the 3 cables share the rest equally
 var fuelDecrease = 0.25;              // fuel used per frame while in combat
 var usaMissileDelaySize = 60;         // frames per missile-delay chevron (USA)
 var ussrMissileDelaySize = 120;       // frames per missile-delay chevron (USSR)

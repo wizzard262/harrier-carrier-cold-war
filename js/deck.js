@@ -481,7 +481,7 @@ function UpdateReturnToCarrier(aircraft) {
         aircraft.sprite.bringToTop();
 
         //set recovery line it will hit (0 = bolter, the U2 never lands)
-        aircraft.sprite.recoveryLine = (aircraft.type == 'u2') ? 0 : game.rnd.pick([0, 1, 2, 3]);
+        aircraft.sprite.recoveryLine = (aircraft.type == 'u2') ? 0 : PickRecoveryLine();
     }
 
     if (isHoverFlightType(aircraft.type)) {
@@ -496,6 +496,13 @@ function UpdateReturnToCarrier(aircraft) {
             aircraft.sprite.isoY = ((aircraft.destY * 2) + 1.5 + deckOffsetY) * isoBaseSize;
         }
     }
+}
+
+// Bolter (0) with bolterChance, otherwise cable 1, 2 or 3 with equal odds
+function PickRecoveryLine() {
+    var r = game.rnd.frac();
+    if (r < bolterChance) return 0;
+    return Math.min(3, 1 + Math.floor((r - bolterChance) / (1 - bolterChance) * 3));
 }
 
 // Choose where a returning VTOL aircraft lands: the recharge pad it needs most, else any free square
