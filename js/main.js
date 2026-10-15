@@ -102,13 +102,14 @@ BasicGame.Boot.prototype = {
 
         if (musicEnabled) {
             MusicOn();
+            // switching away pauses the song; coming back carries on where it was
             game.onBlur.add(function () {
-                MusicOff(musicPlaying);
+                MusicPause();
                 game.paused = true;
             }, this);
             game.onFocus.add(function () {
                 if (musicPlaying)
-                    MusicOn();
+                    MusicResume();
                 game.paused = false;
             }, this);
         }

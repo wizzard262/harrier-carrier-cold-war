@@ -23,7 +23,7 @@ function CreateMusicTrack(src) {
         onplayerror: function () {
             // the browser blocks sound until the player taps or clicks: play then
             track.once('unlock', function () {
-                if (musicPlaying && CurrentMusicTrack() === track)
+                if (musicPlaying && CurrentMusicTrack() === track && !track.playing())
                     track.play();
             });
         }
@@ -55,9 +55,21 @@ function MusicOn() {
     }
 }
 
-// Stop the music. Pass true to remember it should resume (e.g. when the game loses focus).
+// Stop the music. Pass true to remember it should resume.
 function MusicOff(musicPlay) {
     musicPlaying = !!musicPlay;
     soundMusic.stop();
     soundMusic2.stop();
+}
+
+// Pause the song (when the game loses focus), keeping its place
+function MusicPause() {
+    CurrentMusicTrack().pause();
+}
+
+// Carry on with the paused song from where it was
+function MusicResume() {
+    var track = CurrentMusicTrack();
+    if (!track.playing())
+        track.play();
 }
