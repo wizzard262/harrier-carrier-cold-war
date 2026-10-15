@@ -9,7 +9,7 @@ Plain JavaScript, no build step. `index.htm` loads the libraries and then the ga
 | `phaser.min.js` | Phaser 2.6.2 (game engine) |
 | `phaser-plugin-isometric.min.js` | Phaser Isometric plugin 0.9.4 (the carrier deck) |
 | `pathfinding-browser.min.js` | PathFinding.js (A* for moving aircraft on deck) |
-| `howler.core.min.js` | howler.js 2.0.2 (music) |
+| `howler.core.min.js` | howler.js 2.2.4 (music) |
 
 ## Game (`js/`, in load order)
 

@@ -1,6 +1,8 @@
 /*
  * Harrier Carrier - music
  * Two 80s synth tracks, played alternately (Howler.js).
+ * They stream from the site (html5 audio), so a track starts as soon as its first part has downloaded,
+ * and each track downloads only when it is first played.
  */
 
 var musicPlaying = true;
@@ -8,23 +10,35 @@ var audioTrack = 0;
 var soundMusic;
 var soundMusic2;
 
+function CreateMusicTrack(src) {
+    var track = new Howl({
+        src: [src],
+        html5: true,     // stream, rather than download and decode the whole 4.8 MB file before playing
+        preload: false,  // download when first played
+        loop: false,
+        volume: 1,
+        onend: function () {
+            MusicOn();
+        },
+        onplayerror: function () {
+            // the browser blocks sound until the player taps or clicks: play then
+            track.once('unlock', function () {
+                if (musicPlaying && CurrentMusicTrack() === track)
+                    track.play();
+            });
+        }
+    });
+    return track;
+}
+
 if (musicEnabled) {
-    soundMusic = new Howl({
-        src: 'assets/audio.mp4',
-        loop: false,
-        volume: 1,
-        onend: function () {
-            MusicOn();
-        }
-    });
-    soundMusic2 = new Howl({
-        src: 'assets/audio2.mp4',
-        loop: false,
-        volume: 1,
-        onend: function () {
-            MusicOn();
-        }
-    });
+    soundMusic = CreateMusicTrack('assets/audio.mp4');
+    soundMusic2 = CreateMusicTrack('assets/audio2.mp4');
+}
+
+// the track that is playing (or was last started)
+function CurrentMusicTrack() {
+    return (audioTrack === 1) ? soundMusic : soundMusic2;
 }
 
 // Start the next track
