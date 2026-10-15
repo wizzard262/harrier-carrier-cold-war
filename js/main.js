@@ -110,7 +110,7 @@ BasicGame.Boot.prototype = {
             game.onFocus.add(function () {
                 if (musicPlaying)
                     MusicResume();
-                game.paused = false;
+                game.paused = IsWaitingForTap(); // stays paused behind "tap to start"
             }, this);
         }
     },
