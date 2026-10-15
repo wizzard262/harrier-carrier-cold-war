@@ -121,7 +121,7 @@ function GetUssrWaveHealth(wave) {
 
 // Foxbat defector intel: the type of the next attacker in this slot
 function GetIntel(slot) {
-    var waves = ussrWaves && ussrWaves[Battle.ussrWave];
+    var waves = (Battle.ussrWave == -1) ? ussrWavesRandom[0] : ussrWaves[Battle.ussrWave];
     if (waves && waves[Battle.ussrSubwave + 1] && waves[Battle.ussrSubwave + 1][slot]) {
         return GetTypeIntelText(waves[Battle.ussrSubwave + 1][slot]);
     }

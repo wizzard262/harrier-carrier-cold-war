@@ -201,13 +201,15 @@ function AnimateProfileRoll(profile, slot) {
     }
 }
 
+// Whether each slot's intel gets through is rolled once per sub-wave (UpdateUssrSubWave),
+// so a report stays on screen instead of flickering
 function DrawFoxbatIntelText(slot) {
     var text = UI.foxbatIntelTexts[slot];
     text.visible = false;
 
-    if (Battle.foxbatIntel) {
+    if (Battle.foxbatIntel && Battle.foxbatIntelReceived[slot]) {
         var intel = GetIntel(3 - slot);
-        if (intel && game.rnd.pick([true, true, true, false, false])) {
+        if (intel) {
             text.text = intel;
             text.visible = true;
         }
@@ -384,7 +386,10 @@ function AnimateSeakingJammer(aircraft, profile) {
 function AnimateFoxbatMorseCode(aircraft, profile) {
     if (aircraft.type != 'foxbat_defect' || !Battle.foxbatIntel) return;
 
-    if (aircraft.counter == 50 || aircraft.counter == 100 || aircraft.counter == 150 || aircraft.counter == 201) {
+    // its own timer: the firing counter resets on every shot and stops when out of ammo
+    aircraft.morseCounter = ((aircraft.morseCounter || 0) + 1) % 250;
+    var flash = aircraft.morseCounter;
+    if (flash == 50 || flash == 100 || flash == 150 || flash == 200) {
         var morse = SetFlatSprite(profile.sprite.x + 50, profile.sprite.y, 0, 'tileset', 'sos');
         morse.scale.setTo(1, 1);
         morse.bringToTop();
@@ -481,6 +486,11 @@ function FireUssrMissile(profile, slot) {
 // Send in a USSR sub-wave
 function UpdateUssrSubWave(wave, subwave) {
     var currentSubWaveArray = (wave == -1) ? ussrWavesRandom[0][subwave] : ussrWaves[wave][subwave];
+
+    // a Foxbat defector's intel on the next sub-wave gets through 3 times in 5, per slot
+    Battle.foxbatIntelReceived = [0, 1, 2, 3].map(function () {
+        return game.rnd.pick([true, true, true, false, false]);
+    });
 
     ussrProfiles = [];
 

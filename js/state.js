@@ -32,6 +32,7 @@ var Battle = {
     selectedLevel: undefined, // last menu selection
     missileDelayUnitModifier: 0, // Hawkeyes in combat: each removes a missile-delay chevron
     foxbatIntel: false,       // a Foxbat defector is in combat and reporting intel
+    foxbatIntelReceived: [false, false, false, false], // per slot: did this sub-wave's intel get through (rolled once per sub-wave)
     landingSequenceRunning: false
 };
 
