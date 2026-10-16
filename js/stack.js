@@ -470,6 +470,50 @@ function UpdateDefectingFoxbat(profiles, i, sprite) {
     }
 }
 
+// Bear escort level: once the rest of its sub-wave is shot down the Bear leaves the battle
+function UpdateEscortBear() {
+    if (!IsEscortLevel()) return;
+
+    var bearSlot = null;
+    for (var i = 0; i < ussrProfiles.length; i++) {
+        if (ussrProfiles[i]) {
+            if (!IsEscortBear(ussrProfiles[i])) return; // escorts still fighting
+            bearSlot = i;
+        }
+    }
+    if (bearSlot !== null) {
+        EscortBearLeaves(bearSlot, !isUpdateUssrSubWave());
+    }
+}
+
+// It retreats out of sight to come back a slot higher, or after the last sub-wave flies on past the carrier
+function EscortBearLeaves(slot, isLastSubWave) {
+    var profile = ussrProfiles[slot];
+    var sprite = profile.sprite;
+    ussrProfiles[slot] = null;
+    profile.chevron.destroy();
+
+    game.tweens.removeFrom(sprite);
+    sprite.inputEnabled = false;
+    sprite.bringToTop();
+
+    var tweenOut = game.add.tween(sprite);
+    if (isLastSubWave) {
+        DrawRechargeText(sprite.x, sprite.y, 'Blue', 'escorted', 32);
+        tweenOut.to({ x: -300 }, 6000 * Speed.tweenMultiplier, Phaser.Easing.Linear.None, true);
+    }
+    else {
+        // turn round (flipping the sprite moves it left by its width, so shift it back)
+        var width = Math.abs(sprite.width);
+        sprite.scale.x = -1;
+        sprite.x += width;
+        tweenOut.to({ x: 700 + width }, 1500 * Speed.tweenMultiplier, Phaser.Easing.Quadratic.In, true);
+    }
+    tweenOut.onComplete.add(function (sprite) {
+        sprite.destroy();
+    });
+}
+
 function FireUssrMissile(profile, slot) {
     profile.missileCounter = 0;
     var isBullet = false;
@@ -586,9 +630,17 @@ function RemoveDestroyed(sprites) {
 
 function UsaMissileHit(missile) {
     var target = ussrProfiles[missile.slot];
+    var isEscortBear = IsEscortBear(target);
     missile.hit = true;
     target.shield -= missile.damage;
-    Battle.ussrHealthDelta = (missile.damage == 75) ? 100 : missile.damage; // A-10 bullets count extra on the USSR health bar
+    if (isEscortBear) {
+        // not on the USSR health bar
+        if (target.shield > 0)
+            DrawRechargeText(missile.x - 60, missile.y - 40, 'Purple', 'HOLD FIRE', 32);
+    }
+    else {
+        Battle.ussrHealthDelta = (missile.damage == 75) ? 100 : missile.damage; // A-10 bullets count extra on the USSR health bar
+    }
     var isKill = false;
 
     if (target.shield <= 0) {
@@ -616,6 +668,11 @@ function UsaMissileHit(missile) {
     }
 
     missile.destroy();
+
+    // shooting down the escorted Bear loses the level
+    if (isKill && isEscortBear) {
+        Defeat(3, true);
+    }
 }
 
 function UpdateMissileUssr() {

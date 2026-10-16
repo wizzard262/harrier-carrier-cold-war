@@ -7,6 +7,15 @@ function IsNotTutorialLevel() {
     return Battle.ussrWave == -1 || Battle.ussrWave > 1;
 }
 
+function IsEscortLevel() {
+    return Battle.ussrWave == ESCORT_LEVEL;
+}
+
+// The Bear on the escort level: it must not be shot down
+function IsEscortBear(profile) {
+    return IsEscortLevel() && profile.type == 'bear';
+}
+
 //=========================== WAVES =====================================
 
 function UpdateUssrWave() {
@@ -14,6 +23,9 @@ function UpdateUssrWave() {
     var updateWave = false;
 
     TutorialReturnToCarrierHint();
+
+    if (Battle.usaAlive)
+        UpdateEscortBear();
 
     if (!Battle.ussrWaveUpdate && Battle.usaAlive && !IsUssrProfileStillExist()) {
 
@@ -59,7 +71,10 @@ function IsUsaStackEmpty() {
 }
 
 function StartNextLevel() {
-    if (Battle.ussrWave + 1 > 0) {
+    if (IsEscortLevel()) {
+        DrawWaveText('     bear', '    escort', Battle.resetting ? '   mission' : '  complete');
+    }
+    else if (Battle.ussrWave + 1 > 0) {
         DrawWaveText('     alert', '    status', '   DEFCON ' + (Battle.ussrWave + 1));
     }
     else {
@@ -111,7 +126,8 @@ function GetUssrWaveHealth(wave) {
     var totalHealth = 0;
     waves.forEach(function (subWave) {
         subWave.forEach(function (plane) {
-            if (plane !== null && plane !== undefined) {
+            // the escorted Bear is not there to be shot down
+            if (plane !== null && plane !== undefined && !(wave == ESCORT_LEVEL && plane == 'bear')) {
                 totalHealth += GetTypeShieldMax(plane);
             }
         });
@@ -132,6 +148,10 @@ function isUpdateUssrWave() {
     //random level
     if (Battle.ussrWave == -1)
         return true;
+
+    //the Bear escort level is only played from the menu
+    if (Battle.ussrWave + 1 == ESCORT_LEVEL)
+        return false;
 
     return !!ussrWaves[Battle.ussrWave + 1];
 }
@@ -284,7 +304,7 @@ function UpdateUsaAircraftHealthStatus() {
     }
 }
 
-// defeatType: 0 carrier destroyed, 1 no aircraft left, 2 the U2 was lost
+// defeatType: 0 carrier destroyed, 1 no aircraft left, 2 the U2 was lost, 3 the escorted Bear was shot down
 function Defeat(defeatType, showMessages) {
     DestroyAll();
     DestroyAllSelections();

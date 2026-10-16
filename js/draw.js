@@ -567,7 +567,10 @@ function DrawLevelTextInfoPanel(ussrWave) {
         return;
     }
 
-    if (ussrWave >= 0 && ussrWave <= lastLevel) {
+    if (ussrWave == ESCORT_LEVEL) {
+        DrawAdmiralText("  ===== BEAR ESCORT =====", levelText[ussrWave]);
+    }
+    else if (ussrWave >= 0 && ussrWave <= lastLevel) {
         DrawAdmiralText("  ===== DEFCON:" + (ussrWave + 1) + " =====", levelText[ussrWave]);
     }
     else {
@@ -585,7 +588,8 @@ function DrawDefeatTextInfoPanel(defeatType) {
 function DrawInsigniaPanel(number) {
     if (number !== 0 || Battle.isRandomLevel < 0) {
 
-        var defconText = (Battle.isRandomLevel < 0) ? '   random ' : '   defcon ' + number;
+        var isEscort = number == ESCORT_LEVEL + 1;
+        var defconText = (Battle.isRandomLevel < 0) ? '   random ' : isEscort ? '    escort' : '   defcon ' + number;
 
         UI.mainTitleLine1Text.text = defconText;
         UI.mainTitleLine1Text.visible = true;
@@ -600,12 +604,24 @@ function DrawInsigniaPanel(number) {
         UI.graphicsInsigniaPanel.beginFill(0x999999);
         UI.graphicsInsigniaPanel.drawRect(0, 390, 700, 510);
         UI.graphicsInsigniaPanel.endFill();
+
+        // behind the title, so it can be read over the victory flag
+        if (UI.flagAnimationVictory && UI.flagAnimationVictory.visible) {
+            UI.graphicsInsigniaPanel.beginFill(0x999999, 0.85);
+            UI.graphicsInsigniaPanel.drawRect(100, 30, 500, 360);
+            UI.graphicsInsigniaPanel.endFill();
+        }
         game.world.bringToTop(UI.graphicsInsigniaPanel);
         UI.graphicsInsigniaPanel.visible = true;
 
         UI.spriteInsigniaPanel.visible = true;
-        UI.spriteInsigniaPanel.loadTexture('insigniaset', 'insignia_' + ((number == -1) ? 1 : number));
+        UI.spriteInsigniaPanel.loadTexture('insigniaset', 'insignia_' + ((number == -1) ? 1 : isEscort ? 16 : number));
         UI.spriteInsigniaPanel.bringToTop();
+
+        // above the victory flag (the last level and the Bear escort)
+        game.world.bringToTop(UI.mainTitleLine1Text);
+        game.world.bringToTop(UI.mainTitleLine2Text);
+        game.world.bringToTop(UI.mainTitleLine3Text);
     }
 }
 

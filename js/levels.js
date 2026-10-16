@@ -4,6 +4,7 @@
  *   ussrWaves[level]  USSR attack sub-waves, each 4 altitude slots from the top: type or null
  *   levelText         the Admiral's briefing for each level (5 lines)
  *   defeatText        the Admiral's debrief when you lose
+ *   ...Escort         the Bear escort level, added after the last level as ESCORT_LEVEL
  *   touchIconTutorial tutorial hand positions: [x, y, icon, fade ms]
  *   tiles_sea         water tiles around the carrier
  */
@@ -647,6 +648,75 @@ var defeatText = [
         ['Major political incident.'],
         ['Try cycling the U2 around'],
         ['when missiles approach']
+    ],
+    [
+        ['You shot down the BEAR!'],
+        ['Moscow calls it an act of'],
+        ['war. Keep armed aircraft'],
+        ['out of its altitude, and'],
+        ['let SEAKINGS take the hits']
+    ]
+];
+
+/*
+ * The Bear escort level (menu: the square right of Google Play).
+ * The Bear comes in one slot higher each sub-wave; when the rest of its sub-wave is shot down it
+ * retreats, and after the last sub-wave it flies on past the carrier. Shooting it down loses the level.
+ */
+var usaWavesEscort = [
+    [3, 1, 0, 0],
+    [3, 1, 0, 1],
+    [3, 1, 0, 2],
+    [3, 1, 0, 3],
+    [3, 1, 0, 4],
+    [0, 1, 0, 5],
+    [0, 1, 0, 6],
+    [0, 1, 0, 7],
+    [1, 0, 3, 2],
+    [4, 0, 3, 3]
+];
+
+var ussrWavesEscort = [
+    [
+        null,
+        'mig17',
+        'mig17',
+        'bear'
+    ],
+    [
+        'mig17',
+        'mig21',
+        'bear',
+        'mig17'
+    ],
+    [
+        'mig21',
+        'bear',
+        'mig21',
+        'fulcrum'
+    ],
+    [
+        'bear',
+        'fulcrum',
+        'mig21',
+        'fulcrum'
+    ]
+];
+
+var levelTextEscort = [
+    [
+        ['A Soviet BEAR is probing'],
+        ['our fleet. ESCORT it, but'],
+        ['DO NOT shoot it down: WW3!'],
+        ['Its MISSILES are live, use'],
+        ['SEAKINGS to soak them up.']
+    ],
+    [
+        ['The BEAR is heading home.'],
+        ['Not a scratch on it, and'],
+        ['no WW3. Moscow will never'],
+        ['know how close it came.'],
+        ['Damn fine escorting, Ace!']
     ]
 ];
 
@@ -670,3 +740,11 @@ else
     ]
     );
 }
+
+// The Bear escort level goes after the last level, followed by its own victory screen
+var ESCORT_LEVEL = ussrWaves.length;
+usaWaves[ESCORT_LEVEL] = usaWavesEscort;
+ussrWaves[ESCORT_LEVEL] = ussrWavesEscort;
+ussrWaves[ESCORT_LEVEL + 1] = [[null, null, null, null]];
+levelText[ESCORT_LEVEL] = levelTextEscort[0];
+levelText[ESCORT_LEVEL + 1] = levelTextEscort[1];

@@ -34,3 +34,8 @@ Each USA aircraft (`sprite_deck`) is an object: `type`, `direction`, `x`/`y` dec
 Its `action` drives everything – see `spriteActionArray` in `config.js` for the full list, and `UpdateAircraft` in `deck.js` for how one action leads to the next.
 
 The battle stack has four altitude slots (0 = lowest). A plane can only shoot the attacker in the same slot.
+
+## The Bear escort level
+
+Started from the menu square right of the Google Play button. Its data (`usaWavesEscort`, `ussrWavesEscort`, `levelTextEscort`) is added after the last level as `ESCORT_LEVEL`, followed by its own victory screen, so finishing level 16 never rolls into it.
+The Bear starts in slot 0 and comes back one slot higher in each of the 4 sub-waves. When the rest of a sub-wave is shot down it retreats (`EscortBearLeaves` in `stack.js`); after the last sub-wave it flies on past the carrier. It is left off the USSR health bar, and shooting it down is defeat type 3.

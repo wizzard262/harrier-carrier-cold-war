@@ -101,6 +101,7 @@ function MenuIndex(value, starts) {
  * What a tap on the menu selects:
  *   0-15  a level        -4/-5/-6  random easy/medium/hard   -7  replay the random level
  *   -2/-3 music on/off   -8  full game advert                -1  nothing
+ *   ESCORT_LEVEL  the Bear escort (full game only)
  */
 function GetSelectedLevel(x, y) {
     Battle.isRandomLevel = 0;
@@ -133,6 +134,9 @@ function GetSelectedLevel(x, y) {
     if (row === 5 && col === 2) {
         return -8;                                       // full game advert
     }
+    if (FullGameEnabled && row === 5 && col === 3) {
+        return ESCORT_LEVEL;                             // Bear escort
+    }
     return -1;
 }
 
@@ -158,6 +162,10 @@ function DrawMenuSelection(ussrWave) {
         y = 276;
     if (level === 0) //replay random
         y = 354;
+    if (ussrWave >= ESCORT_LEVEL) { //Bear escort and its victory screen
+        x = 419;
+        y = 430;
+    }
 
     if (FullGameEnabled || level <= 7) {
         UI.graphicsProfile.lineStyle(10, 0xFF0000, 1);
