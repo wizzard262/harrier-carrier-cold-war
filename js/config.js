@@ -5,7 +5,7 @@
 
 var musicEnabled = true;
 var FullGameEnabled = true;
-var googlePlayLink = "https://play.google.com/store/apps/details?id=garmadon.harriercarriercoldwar";
+var googlePlayLink = "https://play.google.com/store/apps/details?id=com.harriercarrier.coldwar";
 
 //=========================== TUNING ====================================
 
