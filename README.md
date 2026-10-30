@@ -1,6 +1,10 @@
 # Harrier Carrier – browser game code
 
-Plain JavaScript, no build step. `index.htm` loads the libraries and then the game files in order with `<script src>`; everything is in global scope, as before the refactor.
+Play it at https://wizzard262.github.io/harrier-carrier-cold-war/ (GitHub Pages, published from `main` on every push). Android version: https://play.google.com/store/apps/details?id=com.harriercarrier.coldwar
+
+The two early prototypes of the carrier deck are in `prototype1/` and `prototype2/` (https://wizzard262.github.io/harrier-carrier-cold-war/prototype1/ and `.../prototype2/`).
+
+Plain JavaScript, no build step. `index.html` loads the libraries and then the game files in order with `<script src>`; everything is in global scope, as before the refactor.
 
 ## Libraries (`lib/`)
 
