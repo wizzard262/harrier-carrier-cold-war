@@ -18,6 +18,34 @@
                 background-color: #000000;
                 height: 100%;
 			}
+
+			/*
+			 * Phones taller than the game (it is 700 x 900, so narrower than 7:9):
+			 * the game sits at the bottom of the screen, nearest the thumbs, and extra sky fills the space above it.
+			 * The game fills the width here, so 100vw is 700 game pixels and 1 cloud strip is 100 game pixels (14.286vw).
+			 */
+			@media (max-aspect-ratio: 7/9) {
+				html, body {
+					height: 100%;
+					overflow: hidden; /* never a page to scroll, whatever size the browser bars leave */
+				}
+				body {
+					margin: 0;
+					display: flex;
+					flex-direction: column;
+					justify-content: flex-end; /* the canvas goes to the bottom */
+					align-items: flex-start;   /* the canvas keeps the width the game gives it */
+					background-color: #B8E7FF; /* the sky colour at the top of the game, so no join shows */
+					background-image: url(assets/cloud_1.png), url(assets/cloud_1.png), url(assets/cloud_1.png);
+					background-repeat: no-repeat;
+					background-size: 143.4vw 14.286vw; /* same stretch as the clouds in the game */
+					background-position:
+						-60vw  calc(100% - 128.6vw - 4vw),   /* just above the game */
+						-5vw   calc(100% - 128.6vw - 30vw),  /* higher up */
+						-80vw  calc(100% - 128.6vw - 60vw);  /* near the top */
+					image-rendering: pixelated;
+				}
+			}
 		</style>
 
 		<!-- libraries -->
